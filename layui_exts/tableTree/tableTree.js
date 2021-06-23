@@ -1,3 +1,8 @@
+/**
+ * 原作者地址：https://github.com/dongqibin/layui-table-tree
+ * 修复增强版：https://github.com/yhl452493373/layui-table-tree
+ * 此为修复增强版
+ */
 layui.define(['table', 'jquery'], function (exports) {
     var MOD_NAME = 'tableTree';
     var $ = layui.jquery;
@@ -42,14 +47,14 @@ layui.define(['table', 'jquery'], function (exports) {
             // table参数,作为中转变量,以期二次渲染的时候不用再次传入
             this.objTable = {};
         }
+
         // 渲染
         Tree.prototype.render = function (obj, config) {
             var _this = this;
             // 此操作是为了在多次调用render方法的时候,可以忽略obj参数
             if (!!obj) {
                 this.objTable = obj;
-            }
-            else {
+            } else {
                 obj = this.objTable;
             }
             if (!!config) {
@@ -70,8 +75,7 @@ layui.define(['table', 'jquery'], function (exports) {
                     res.data = _this._parse(res.data);
                     return res;
                 };
-            }
-            else if (obj.url == null && obj.hasOwnProperty('data')) {
+            } else if (obj.url == null && obj.hasOwnProperty('data')) {
                 this._sortData(obj.data);
                 obj.data = this._parse(obj.data);
             }
@@ -294,8 +298,7 @@ layui.define(['table', 'jquery'], function (exports) {
             if (!localData) {
                 // 初始化运行时配置参数
                 this.run = JSON.parse(JSON.stringify(this.runTemplate));
-            }
-            else {
+            } else {
                 this.run.unfoldStatus = {};
             }
             var cache = this.getShowCache();
@@ -367,13 +370,11 @@ layui.define(['table', 'jquery'], function (exports) {
                 if (unfoldId) {
                     // 下级展开
                     that.showByPid(id, layId);
-                }
-                else {
+                } else {
                     if (item.hasOwnProperty('open') && item.open === true) {
                         // 下级展开
                         that.showByPid(id, layId);
-                    }
-                    else {
+                    } else {
                         // 下级折叠
                         that.hideByPid(id, layId);
                     }
@@ -390,21 +391,20 @@ layui.define(['table', 'jquery'], function (exports) {
             data.forEach(function (item) {
                 var id = item[keyId];
                 var index = dataIndex[id];
-                var elem = _this.getElemTdByIndex(layId, index);
+                var elemIcon = _this.getElemIconByIndex(layId, index);
                 var param = {
                     id: id,
                     index: index
                 };
                 // 先取消后绑定.以防止重复绑定
-                elem.off('click').bind('click', param, function (param) {
+                elemIcon.off('click').bind('click', param, function (param) {
                     var id = param.data.id;
                     // 判断当前折叠还是展开
                     var unfoldId = that.getUnfoldStatus(id);
                     if (unfoldId) {
                         // 下级折叠
                         that.hideByPid(id, layId);
-                    }
-                    else {
+                    } else {
                         // 下级展开
                         that.showByPid(id, layId);
                     }
@@ -450,8 +450,7 @@ layui.define(['table', 'jquery'], function (exports) {
                 if (level[key] == 0) {
                     if (sort === 'asc') {
                         dataTop.push(key);
-                    }
-                    else {
+                    } else {
                         dataTop.splice(0, 0, key);
                     }
                 }
@@ -482,8 +481,7 @@ layui.define(['table', 'jquery'], function (exports) {
                             childrenData.push(dataMap[childData]);
                         });
                         this._sortData(childrenData);
-                    }
-                    else {
+                    } else {
                         child.sort(function (a, b) {
                             var compare = a == b ? 0 : a > b ? 1 : -1;
                             return sort === 'desc' ? compare * -1 : compare;
@@ -548,8 +546,7 @@ layui.define(['table', 'jquery'], function (exports) {
                 if (pid === _this.run.minPid) {
                     // 如果是顶级,则直接加入到 level 中
                     level[id] = 0;
-                }
-                else {
+                } else {
                     // 如果不是顶级, 从 level 中取上级的level, 加1 存入 level 中
                     level[id] = getLevel(pid, 0);
                 }
@@ -567,7 +564,7 @@ layui.define(['table', 'jquery'], function (exports) {
                 var title = _this.getTitle();
                 var iconClose = _this.getIconClose();
                 //增加被占用后的数据的原始数据列
-                item['__'+title+'__'] = item[title];
+                item['__' + title + '__'] = item[title];
                 if (hasChild[id]) {
                     item[title] = '<span class="' + iconClose + '"></span>' + item[title];
                 }
@@ -585,6 +582,11 @@ layui.define(['table', 'jquery'], function (exports) {
                 var pid = item[keyPid];
                 //hasChild[id] = false; // 在顺序混乱的情况下.会出现id=false覆盖pid=true的情况.id=pid的情况下.
                 hasChild[pid] = true;
+            });
+            data.forEach(function (item) {
+                var id = item[keyId];
+                var pid = item[keyPid];
+                item['__hasChild__'] = hasChild[pid] || false;
             });
             this.run.hasChild = hasChild;
         };

@@ -37,7 +37,11 @@ https://www.layui.com/doc/base/modules.html#extend
 
 ---
 
-被占用名称的列即上述参数的 title 列，若设置为name，在layui的table的tool事件中，可通过 `data[__name__]` 的形式获取原始数据。这在编辑时比较有用
+被占用名称的列即上述参数的 title 列，若设置为name，在layui的table的tool事件中，可通过 `data[__name__]` 的形式获取原始数据。这在编辑时比较有用。
+
+---
+
+在layui的table的tool事件中，获取的data可以通过 `__hasChild__` 的形式获取该数据是否还有子级，true-有子级，false-没有子级
 
 
 #### 代码示例
