@@ -566,6 +566,8 @@ layui.define(['table', 'jquery'], function (exports) {
                 var id = item[keyId];
                 var title = _this.getTitle();
                 var iconClose = _this.getIconClose();
+                //增加被占用后的数据的原始数据列
+                item['__'+title+'__'] = item[title];
                 if (hasChild[id]) {
                     item[title] = '<span class="' + iconClose + '"></span>' + item[title];
                 }
