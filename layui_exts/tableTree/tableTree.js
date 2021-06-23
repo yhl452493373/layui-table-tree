@@ -586,7 +586,7 @@ layui.define(['table', 'jquery'], function (exports) {
             data.forEach(function (item) {
                 var id = item[keyId];
                 var pid = item[keyPid];
-                item['__hasChild__'] = hasChild[pid] || false;
+                item['__hasChild__'] = hasChild[id]===true;
             });
             this.run.hasChild = hasChild;
         };
